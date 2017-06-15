@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "json2csv": "^3.7.3",
     "node-neurosky": "^0.0.1"
   },
   "devDependencies": {},
