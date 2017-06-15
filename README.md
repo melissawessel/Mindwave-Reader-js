@@ -1,1 +1,1 @@
-# EEGlightcommand
+# Mindwave-Reader-js
