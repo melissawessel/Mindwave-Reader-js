@@ -25,7 +25,7 @@ function printToCsv(eegData) {
   var csv = json2csv(toCsv) + newLine;
   console.log('csv', csv);
 
-  fs.appendFile('unsteady.csv', csv, function (err) {
+  fs.appendFile('EEGdata.csv', csv, function (err) {
     if (err) throw err;
     //console.log('Appended: ', csv);
   });
