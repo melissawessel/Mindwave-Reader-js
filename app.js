@@ -1,16 +1,21 @@
 
-var Mindwave = require('mindwave');
+var Mindwave = require('./mindwave.js');
 var mw = new Mindwave();
 
 var hue = require("node-hue-api"),
     HueApi = hue.HueApi,
     lightState = hue.lightState;
 
-var host = "192.168.0.2",
+// for finding bridges
+var displayBridges = function(bridge) {
+	console.log("Hue Bridges Found: " + JSON.stringify(bridge));
+};
+// hue.nupnpSearch().then(displayBridges).done();
+
+var host = "192.168.1.68",
     username = "5s27H-tZVGzQ8IwisyTCo6dOq9cEgoPhuhdpkqMC",
     api = new HueApi(host, username),
     state;
-
 
 function printToCsv(eegData) {
   var fs = require('fs');
@@ -36,18 +41,17 @@ function attnColorChange(attn) {
   bVal = ((100 - attn) * 255) / 100
   state = lightState.create().on().brightness(attn)
                     .rgb(rVal,0,bVal).transitionSlow();
-  api.setLightState(2, state)
-  api.setLightState(3, state)
+  api.setLightState(4, state)
 }
 
-function medColorChange(med) {
-  bVal = (med * 255) / 100
-  rVal = ((100 - med) * 255) / 100
-  state = lightState.create().on().brightness(bVal).saturation(bVal)
-                    .rgb(0,0,bVal).transitionSlow();
-  api.setLightState(4, state)
-  // api.setLightState(3, state)
-}
+// function medColorChange(med) {
+//   bVal = (med * 255) / 100
+//   rVal = ((100 - med) * 255) / 100
+//   state = lightState.create().on().brightness(bVal).saturation(bVal)
+//                     .rgb(0,0,bVal).transitionSlow();
+//   api.setLightState(4, state)
+//   // api.setLightState(3, state)
+// }
 
 // mw.on('eeg', function(eeg){
 //     console.log('eeg', eeg);
@@ -59,13 +63,16 @@ function medColorChange(med) {
 
 mw.on('attention', function(attention){
     console.log('attention', attention);
+    // mw.on('wave', function(wave){
+    // 	console.log('wave', wave);
+    // });
     attnColorChange(attention)
 });
 
-mw.on('meditation', function(meditation){
-    console.log('meditation', meditation);
-    medColorChange(meditation);
-});
+// mw.on('meditation', function(meditation){
+//     console.log('meditation', meditation);
+//     medColorChange(meditation);
+// });
 
 // mw.on('blink', function(blink){
 //     console.log('blink', blink);
